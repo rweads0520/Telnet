@@ -18,11 +18,23 @@
     /// Initialises a new instance of the <see cref="ByteStreamHandler"/> class.
     /// </summary>
     /// <param name="byteStream">The byteStream to handle.</param>
+    /// <param name="ignoreCommands">A flag indicating whether or not the client will suppress responses to commands.</param>
     /// <param name="internalCancellation">A cancellation token.</param>
-    public ByteStreamHandler(IByteStream byteStream, CancellationTokenSource internalCancellation)
+    public ByteStreamHandler(IByteStream byteStream, bool ignoreCommands, CancellationTokenSource internalCancellation)
     {
       this.byteStream = byteStream;
+      this.ignoreCommands = ignoreCommands;
       this.internalCancellation = internalCancellation;
+    }
+
+    /// <summary>
+    /// Initialises a new instance of the <see cref="ByteStreamHandler"/> class.
+    /// </summary>
+    /// <param name="byteStream">The byteStream to handle.</param>
+    /// <param name="internalCancellation">A cancellation token.</param>
+    public ByteStreamHandler(IByteStream byteStream, CancellationTokenSource internalCancellation)
+      : this(byteStream, false, internalCancellation)
+    {
     }
 
     private bool IsCancellationRequested

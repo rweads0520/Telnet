@@ -12,6 +12,7 @@ namespace PrimS.Telnet
   public partial class ByteStreamHandler : IByteStreamHandler
   {
     private readonly IByteStream byteStream;
+    private readonly bool ignoreCommands;
 
     private bool IsResponsePending
     {
@@ -105,7 +106,7 @@ namespace PrimS.Telnet
     {
       // reply to all commands with "WONT", unless it is SGA (suppress go ahead)
       int inputOption = this.byteStream.ReadByte();
-      if (inputOption != -1)
+      if (!this.ignoreCommands && inputOption != -1)
       {
         this.byteStream.WriteByte((byte)Commands.InterpretAsCommand);
         if (inputOption == (int)Options.SuppressGoAhead)

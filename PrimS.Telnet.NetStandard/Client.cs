@@ -58,6 +58,8 @@ namespace PrimS.Telnet
       }
     }
 
+    public bool IgnoreCommands { get; set; }
+
     /// <summary>
     /// Tries to login asynchronously.
     /// </summary>
@@ -187,7 +189,7 @@ namespace PrimS.Telnet
     /// <returns>Any text read from the stream.</returns>
     public async Task<string> ReadAsync(TimeSpan timeout)
     {
-      ByteStreamHandler handler = new ByteStreamHandler(this.ByteStream, this.InternalCancellation);
+      ByteStreamHandler handler = new ByteStreamHandler(this.ByteStream, this.IgnoreCommands, this.InternalCancellation);
       return await handler.ReadAsync(timeout);
     }
 
