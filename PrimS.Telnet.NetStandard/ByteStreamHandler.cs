@@ -22,6 +22,27 @@ namespace PrimS.Telnet
       }
     }
 
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    public void Dispose()
+    {
+      this.Dispose(true);
+      GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// </summary>
+    /// <param name="disposing"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
+    protected virtual void Dispose(bool disposing)
+    {
+      if (disposing)
+      {
+        this.byteStream.Dispose();
+      }
+    }
+
     private static DateTime ExtendRollingTimeout(TimeSpan timeout)
     {
       return DateTime.Now.Add(TimeSpan.FromMilliseconds(timeout.TotalMilliseconds / 100));
@@ -56,7 +77,7 @@ namespace PrimS.Telnet
     {
       return sb.Length > 0;
     }
-   
+
     private bool RetrieveAndParseResponse(StringBuilder sb)
     {
       if (this.IsResponsePending)
